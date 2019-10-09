@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace = "com.hww.houserent.mapper.HousingBusinessMapper" >
+
+    <select id="getPropertyInformation" resultType="com.hww.houserent.entity.Housing_InformationEntity">
+        select * from housing_information
+    </select>
+
+    <delete id="SingleDeletion" parameterType="Integer">
+        delete from housing_information where id = #{id}
+    </delete>
+</mapper>

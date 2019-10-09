@@ -1,0 +1,43 @@
+server:
+  port:8080
+
+spring:
+  datasource:
+    name: backstage_management_of_housing
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      filters: stat
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/backstage_management_of_housing?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=UTC
+      username: root
+      password: 123456
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: false
+      max-pool-prepared-statement-per-connection-size: 20
+
+      mybatis:
+        mapper-locations: classpath*:mapper/*.xml
+        type-aliases-package: com.hww.houserent.entity
+
+    #分页设置
+    pagehelper:
+      helperDialect: mysql
+      reasonable: false
+      supportMethodsArguments: true
+      pageSizeZero: false
+      params: count=countSql
+      rowBoundsWithCount: true
+      offsetAsPageNum: true
+
+
+
+
