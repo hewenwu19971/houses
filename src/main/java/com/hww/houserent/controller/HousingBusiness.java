@@ -49,10 +49,9 @@ public class HousingBusiness {
         housingBusiness.delHouse(fyID);
         return "/house_list.html";
     }
-/*
     @RequestMapping("/house_edit")
-    public String houseEdit(@RequestParam(value = "id") int id){
-        Housing_InformationEntity editHouse = housingBusiness.editHouse(id);
+    public String houseEdit(@RequestParam(value = "fyID") int fyID){
+        Housing_InformationEntity editHouse = housingBusiness.editHouse(fyID);
         return "";
-    }*/
+    }
 }

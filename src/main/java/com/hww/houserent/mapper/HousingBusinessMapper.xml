@@ -12,7 +12,7 @@
         delete from housing_information where id = #{id}
     </delete>
 
-    <select id="getHousingInformation" parameterMap="Integer" resultType="com.hww.houserent.entity.Housing_InformationEntity">
+    <select id="getHousingInformation" parameterType="Integer" resultType="com.hww.houserent.entity.Housing_InformationEntity">
         select * from housing_information where id = #{id}
     </select>
 </mapper>
