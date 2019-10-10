@@ -9,4 +9,5 @@ import java.util.Map;
 public interface HousingBusiness {
     List<Housing_InformationEntity> getHouse();
     int delHouse(int id);
+    Housing_InformationEntity editHouse(int id);
 }

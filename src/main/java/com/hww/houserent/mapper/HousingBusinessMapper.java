@@ -11,4 +11,6 @@ public interface HousingBusinessMapper {
     List<Housing_InformationEntity> getPropertyInformation();
     /** 单个删除 **/
     int SingleDeletion(int id);
+    /** 编辑 **/
+    Housing_InformationEntity getHousingInformation(int id);
 }

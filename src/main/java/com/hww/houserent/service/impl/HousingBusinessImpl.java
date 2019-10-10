@@ -24,5 +24,10 @@ public class HousingBusinessImpl implements HousingBusiness {
     public int delHouse(int id) {
         return housingBusinessMapper.SingleDeletion(id);
     }
+
+    @Override
+    public Housing_InformationEntity editHouse(int id) {
+        return housingBusinessMapper.getHousingInformation(id);
+    }
 }
 

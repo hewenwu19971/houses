@@ -21,45 +21,45 @@
                     fun(data);
                 }
             });
-
-        });
-        /** 新增   **/
-        $("#addBtn").fancybox({
-            'href': 'house_edit.html',
-            'width': 733,
-            'height': 530,
-            'type': 'iframe',
-            'hideOnOverlayClick': false,
-            'showCloseButton': false,
-            'onClosed': function () {
-                window.location.href = 'house_list.html';
-            }
         });
 
-        /** 导入  **/
-        $("#importBtn").fancybox({
-            'href': '/xngzf/archives/importFangyuan.action',
-            'width': 633,
-            'height': 260,
-            'type': 'iframe',
-            'hideOnOverlayClick': false,
-            'showCloseButton': false,
-            'onClosed': function () {
-                window.location.href = 'house_list.html';
-            }
-        });
+            /** 新增   **/
+            $("#addBtn").fancybox({
+                'href': 'house_edit.html',
+                'width': 733,
+                'height': 530,
+                'type': 'iframe',
+                'hideOnOverlayClick': false,
+                'showCloseButton': false,
+                'onClosed': function () {
+                    window.location.href = 'house_list.html';
+                }
+            });
 
-        /**编辑   **/
-        $("a .edit").fancybox({
-            'width': 733,
-            'height': 530,
-            'type': 'iframe',
-            'hideOnOverlayClick': false,
-            'showCloseButton': false,
-            'onClosed': function () {
-                window.location.href = 'house_list.html';
-            }
-        });
+            /** 导入  **/
+            $("#importBtn").fancybox({
+                'href': '/xngzf/archives/importFangyuan.action',
+                'width': 633,
+                'height': 260,
+                'type': 'iframe',
+                'hideOnOverlayClick': false,
+                'showCloseButton': false,
+                'onClosed': function () {
+                    window.location.href = 'house_list.html';
+                }
+            });
+
+            /**编辑   **/
+            $("a .edit").fancybox({
+                'width': 733,
+                'height': 530,
+                'type': 'iframe',
+                'hideOnOverlayClick': false,
+                'showCloseButton': false,
+                'onClosed': function () {
+                    window.location.href = 'house_list.html';
+                }
+            });
 
         /** 用户角色   **/
         var userRole = '';
@@ -95,7 +95,8 @@
             // 非空判断
             if (fyID == '') return;
             if (confirm("您确定要删除吗？")) {
-                $("#submitForm").attr("action", "/delFangyuan?fyID=" + fyID).submit();
+                console.log(this);
+                $("a").attr("href", "/delFangyuan?fyID=" + fyID);
             }
         }
 
@@ -162,8 +163,8 @@
                         "\t<td>" + item.nature_of_lease + "</td>\n" +
                         "\t<td>" + item.state + "</td>\n" +
                         "\t<td>\n" +
-                        "\t\t<a href=\"house_edit.html?fyID=" + item.id + "\" class=\"edit\">编辑</a>\n" +
-                        "\t\t<a href=\"javascript:del(" + item.id + ");\">删除</a>\n" +
+                        "\t\t<a href=\"house_edit?fyID=" + item.id + "\" class=\"edit\">编辑</a>\n" +
+                        "\t\t<a onclick=\"del(" + item.id + ");\">删除</a>\n" +
                         "\t</td>\n" +
                         "</tr>")
                 });
@@ -265,7 +266,7 @@
                     <div id="box_top">搜索</div>
                     <div id="box_center">
                         小区
-                        <select  id="fyXq" class="ui_select01"
+                        <select id="fyXq" class="ui_select01"
                                 onchange="getFyDhListByFyXqCode();">
                             <option value=""
                             >--请选择--
@@ -276,11 +277,11 @@
                         </select>
 
                         栋号
-                        <select  id="fyDh" class="ui_select01">
+                        <select id="fyDh" class="ui_select01">
                             <option value="">--请选择--</option>
                         </select>
                         户型
-                        <select  id="fyHx" class="ui_select01">
+                        <select id="fyHx" class="ui_select01">
                             <option value="">--请选择--</option>
                             <option value="76">一室一厅一卫</option>
                             <option value="10">两室一厅一卫</option>
@@ -288,7 +289,7 @@
                             <option value="71">三室两厅一卫</option>
                         </select>
                         状态
-                        <select  id="fyStatus" class="ui_select01">
+                        <select id="fyStatus" class="ui_select01">
                             <option value="">--请选择--</option>
                             <option value="26">在建</option>
                             <option value="25">建成待租</option>
