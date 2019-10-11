@@ -63,6 +63,7 @@ public class HousingBusiness {
     @RequestMapping("/house_edits")
     public Housing_InformationEntity house_edits(HttpSession session){
         int fyID = (int)session.getAttribute("fyID");
-        return Housing_InformationEntity;
+        Housing_InformationEntity editHouse = housingBusiness.editHouse(fyID);
+        return editHouse;
     }
 }

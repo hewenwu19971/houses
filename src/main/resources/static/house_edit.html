@@ -14,7 +14,11 @@
 	$(document).ready(function() {
 
 		$.ajax({
-			url:
+			url:house_edits,
+			type: "GET",
+			success: function (data) {
+				fun(data);
+			}
 		})
 		/*
 		 * 提交
