@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -49,9 +51,18 @@ public class HousingBusiness {
         housingBusiness.delHouse(fyID);
         return "/house_list.html";
     }
+
+
     @RequestMapping("/house_edit")
-    public String houseEdit(@RequestParam(value = "fyID") int fyID){
-        Housing_InformationEntity editHouse = housingBusiness.editHouse(fyID);
-        return "";
+    public String houseEdit(@RequestParam(value = "fyID") int fyID,
+                            HttpSession session){
+        session.setAttribute("fyID",fyID);
+        return "house_edit.html";
+    }
+
+    @RequestMapping("/house_edits")
+    public Housing_InformationEntity house_edits(HttpSession session){
+        int fyID = (int)session.getAttribute("fyID");
+        return Housing_InformationEntity;
     }
 }

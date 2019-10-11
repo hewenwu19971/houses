@@ -22,6 +22,18 @@
                 }
             });
 
+            /**编辑   **/
+            $("a .edit").fancybox({
+                'href': 'house_edit.html',
+                'width': 733,
+                'height': 530,
+                'type': 'iframe',
+                'hideOnOverlayClick': false,
+                'showCloseButton': false,
+                'onClosed': function () {
+                    window.location.href = 'house_list.html';
+                }
+            });
 
             /** 新增   **/
             $("#addBtn").fancybox({
@@ -49,17 +61,7 @@
                 }
             });
 
-            /**编辑   **/
-            $("a .edit").fancybox({
-                'width': 733,
-                'height': 530,
-                'type': 'iframe',
-                'hideOnOverlayClick': false,
-                'showCloseButton': false,
-                'onClosed': function () {
-                    window.location.href = 'house_list.html';
-                }
-            });
+
         });
         /** 用户角色   **/
         var userRole = '';
