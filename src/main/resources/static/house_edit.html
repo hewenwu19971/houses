@@ -14,12 +14,26 @@
 	$(document).ready(function() {
 
 		$.ajax({
-			url:house_edits,
+			url:"/house_edits",
 			type: "GET",
 			success: function (data) {
-				fun(data);
+				console.log(data.house);
+				var information = data.house;
+				$("#fyID").val(information.id);
+				$("#fyXq").val(information.community);
+				$("#fyDh").val(information.building_number);
+				$("#fyCh").val(information.floor);
+				$("#fyFh").val(information.room_number);
+				$("#fyZongMj").val(information.housing_area);
+				$("#fyJizuMj").val(information.rental_area);
+				$("#fyHx").val(information.apartment);
+				$("#fyZldz").val(information.community+""+information.building_number+""+information.floor+"-"+information.room_number);
+				$("#fyJzJg").val(information.building_structure);
+				$("#fyPsdz").val(information.position);
+				$("#fyXz").val(information.nature_of_lease);
+				$("#submitForm_fangyuanEntity_fyStatus").attr("value","2");
 			}
-		})
+		});
 		/*
 		 * 提交
 		 */
@@ -111,7 +125,7 @@
 	
 	/** 表单验证  **/
 	function validateForm(){
-		if($("#fyXqName").val()==""){
+		if($("#fyXq").val()==""){
 			art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'填写房源小区', ok:true,});
 			return false;
 		}
@@ -139,13 +153,28 @@
 			art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'填写房源座落地址', ok:true,});
 			return false;
 		}
+		if($("#fyHx").val()==""){
+			art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'填写房源户型', ok:true,});
+			return false;
+		}if($("#fyJzJg").val()==""){
+			art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'填写房源建筑结构', ok:true,});
+			return false;
+		}
+		if($("#fyPsdz").val()==""){
+			art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'填写房源位置', ok:true,});
+			return false;
+		}
+		if($("#fyXz").val()==""){
+			art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'填写房源性质', ok:true,});
+			return false;
+		}
 		return true;
 	}
 </script>
 </head>
 <body>
 <form id="submitForm" name="submitForm" action="/xngzf/archives/initFangyuan.action" method="post">
-	<input type="hidden" name="fyID" value="14458625716623" id="fyID"/>
+	<input type="hidden" name="fyID"  id="fyID"/>
 	<div id="container">
 		<div id="nav_links">
 			当前位置：基础数据&nbsp;>&nbsp;<span style="color: #1A5CC6;">房源编辑</span>
@@ -160,67 +189,67 @@
 				<tr>
 					<td class="ui_text_rt" width="80">小区</td>
 					<td class="ui_text_lt" >
-						<input type="text" style="margin-left: 6px;" class="ui_input_txt02">
+						<input type="text" style="margin-left: 6px;" class="ui_input_txt02" id="fyXq">
 					</td>
 				</tr>
 				<tr>
 					<td class="ui_text_rt">栋号</td>
 					<td class="ui_text_lt">
-						<input type="text" style="margin-left: 6px;" class="ui_input_txt02">
+						<input type="text" style="margin-left: 6px;" class="ui_input_txt02" id="fyDh">
 					</td>
 				</tr>
 				<tr>
 					<td class="ui_text_rt">层号</td>
 					<td class="ui_text_lt">
-						<input type="text" id="fyCh" name="fangyuanEntity.fyCh" value="1"  class="ui_input_txt01"/>
+						<input type="text" id="fyCh" name="fangyuanEntity.fyCh"   class="ui_input_txt01"/>
 					</td>
 				</tr>
 				<tr>
 					<td class="ui_text_rt">房号</td>
 					<td class="ui_text_lt">
-						<input type="text" id="fyFh" name="fangyuanEntity.fyFh"  value="112" class="ui_input_txt01" onkeyup="checkFyFh();"/>室
+						<input type="text" id="fyFh" name="fangyuanEntity.fyFh"   class="ui_input_txt01" onkeyup="checkFyFh();"/>室
 					</td>
 				</tr>
 				<tr>
 					<td class="ui_text_rt">房源面积</td>
 					<td class="ui_text_lt">
-						<input type="text" id="fyZongMj" name="fangyuanEntity.fyZongMj"  value="67.47" class="ui_input_txt01"/>㎡
+						<input type="text" id="fyZongMj" name="fangyuanEntity.fyZongMj"   class="ui_input_txt01"/>㎡
 					</td>
 				</tr>
 				<tr>
 					<td class="ui_text_rt">计租面积</td>
 					<td class="ui_text_lt">
-						<input type="text" id="fyJizuMj" name="fangyuanEntity.fyJizuMj" value="67.47" class="ui_input_txt01"/>㎡
+						<input type="text" id="fyJizuMj" name="fangyuanEntity.fyJizuMj"  class="ui_input_txt01"/>㎡
 					</td>
 				</tr>
 				<tr>
 					<td class="ui_text_rt">户型</td>
 					<td class="ui_text_lt">
-						<input type="text" style="margin-left: 6px;" class="ui_input_txt02">
+						<input type="text" style="margin-left: 6px;" class="ui_input_txt02" id="fyHx">
 					</td>
 				</tr>
 				<tr>
 					<td class="ui_text_rt">建筑结构</td>
 					<td class="ui_text_lt">
-						<input type="text" style="margin-left: 6px;" class="ui_input_txt02">
+						<input type="text" style="margin-left: 6px;" class="ui_input_txt02" id="fyJzJg">
 					</td>
 				</tr>
 				<tr>
 					<td class="ui_text_rt">座落</td>
 					<td class="ui_text_lt">
-						<input type="text" id="fyZldz" name="fangyuanEntity.fyZldz" value="瑞景河畔16号楼1-112" class="ui_input_txt02"/>
+						<input type="text" id="fyZldz" name="fangyuanEntity.fyZldz"  class="ui_input_txt02"/>
 					</td>
 				</tr>
 				<tr>
 					<td class="ui_text_rt">位置</td>
 					<td class="ui_text_lt">
-						<input type="text" id="fyPsdz" name="fangyuanEntity.fyPsdz" value="城中区" class="ui_input_txt02"/>
+						<input type="text" id="fyPsdz" name="fangyuanEntity.fyPsdz"  class="ui_input_txt02"/>
 					</td>
 				</tr>
 				<tr>
 					<td class="ui_text_rt">性质</td>
 					<td class="ui_text_lt">
-						<input type="text" style="margin-left: 6px;" class="ui_input_txt02">
+						<input type="text" style="margin-left: 6px;" class="ui_input_txt02" id="fyXz">
 					</td>
 				</tr>
 				<tr>
@@ -228,13 +257,13 @@
 					<td class="ui_text_lt">
 						<select name="fangyuanEntity.fyStatus" id="submitForm_fangyuanEntity_fyStatus" class="ui_select01">
                             <option value="">--请选择--</option>
-                            <option value="26">在建</option>
-                            <option value="25">建成待租</option>
-                            <option value="13" selected="selected">已配租</option>
-                            <option value="12">已租赁</option>
-                            <option value="24">腾退待租</option>
-                            <option value="23">欠费</option>
-                            <option value="27">其他</option>
+                            <option value="1">在建</option>
+                            <option value="2">建成待租</option>
+                            <option value="3">已配租</option>
+                            <option value="4">已租赁</option>
+                            <option value="5">腾退待租</option>
+                            <option value="6">欠费</option>
+                            <option value="7">其他</option>
                         </select>
 					</td>
 				</tr>

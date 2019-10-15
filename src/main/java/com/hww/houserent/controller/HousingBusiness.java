@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 住房业务逻辑控制器
@@ -31,6 +32,7 @@ public class HousingBusiness {
 
     /**
      * 分页插件pagehelper
+     *
      * @param page 当前页
      * @return
      */
@@ -41,13 +43,13 @@ public class HousingBusiness {
         if (page > 0) {
             PageHelper.startPage(page, 10);
             List<Housing_InformationEntity> housingInformationEntityList = housingBusiness.getHouse();
-             entityPageInfo = new PageInfo<>(housingInformationEntityList);
+            entityPageInfo = new PageInfo<>(housingInformationEntityList);
         }
         return entityPageInfo;
     }
 
     @RequestMapping("/delFangyuan")
-    public String delFangYuan(@RequestParam(value = "fyID") int fyID){
+    public String delFangYuan(@RequestParam(value = "fyID") int fyID) {
         housingBusiness.delHouse(fyID);
         return "/house_list.html";
     }
@@ -55,15 +57,18 @@ public class HousingBusiness {
 
     @RequestMapping("/house_edit")
     public String houseEdit(@RequestParam(value = "fyID") int fyID,
-                            HttpSession session){
-        session.setAttribute("fyID",fyID);
+                            HttpSession session) {
+        session.setAttribute("fyID", fyID);
         return "house_edit.html";
     }
 
+    @ResponseBody
     @RequestMapping("/house_edits")
-    public Housing_InformationEntity house_edits(HttpSession session){
-        int fyID = (int)session.getAttribute("fyID");
+    public Map house_edits(HttpSession session) {
+       Map<String, Object> map = new  HashMap<String, Object>();
+        int fyID = (int) session.getAttribute("fyID");
         Housing_InformationEntity editHouse = housingBusiness.editHouse(fyID);
-        return editHouse;
+        map.put("house",editHouse);
+        return map;
     }
 }
