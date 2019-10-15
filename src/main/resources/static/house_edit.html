@@ -59,7 +59,7 @@
 	});
 	
 	/** 检测房源房号是否存在  **/
-	function checkFyFh(){
+	/*function checkFyFh(){
 		// 分别获取小区编号、栋号、层号、房号
 		var fyID = $('#fyID').val();
 		var fyXqCode = $("#fyXq").val();
@@ -71,9 +71,9 @@
 			$("#fyZldz").val($('#fyDh option:selected').text() + fyCh + "-" + fyFh);
 			// 异步判断该房室是否存在，如果已存在，给用户已提示哦
 			$.ajax({
-				type:"POST",
-				url:"checkFyFhIsExists.action",
-				data:{"fangyuanEntity.fyID":fyID,"fangyuanEntity.fyXqCode":fyXqCode, "fangyuanEntity.fyDhCode":fyDh, "fangyuanEntity.fyCh":fyCh, "fangyuanEntity.fyFh":fyFh},
+				type:"GET",
+				url:"/checkFyFhIsExists",
+				data:{"fyID":fyID,"fyXqCode":fyXqCode, "fyDhCode":fyDh, "fyCh":fyCh, "fyFh":fyFh},
 				dataType : "text",
 				success:function(data){
 // 					alert(data);
@@ -88,7 +88,7 @@
 			});
 		}
 	}
-	
+	*/
 	/** 检测房源房号是否存在并提交form  **/
 	function checkFyFhSubmit(){
 		// 分别获取小区编号、栋号、层号、房号
@@ -102,9 +102,9 @@
 			$("#fyZldz").val($('#fyDh option:selected').text()  + fyCh + "-" + fyFh);
 			// 异步判断该房室是否存在，如果已存在，给用户已提示哦
 			$.ajax({
-				type:"POST",
-				url:"checkFyFhIsExists.action",
-				data:{"fangyuanEntity.fyID":fyID,"fangyuanEntity.fyXqCode":fyXqCode, "fangyuanEntity.fyDhCode":fyDh, "fangyuanEntity.fyCh":fyCh, "fangyuanEntity.fyFh":fyFh},
+				type:"GET",
+				url:"/checkFyFhIsExists",
+				data:{"fyID":fyID,"fyXqCode":fyXqCode, "fyDhCode":fyDh, "fyCh":fyCh, "fyFh":fyFh},
 				dataType : "text",
 				success:function(data){
 // 					alert(data);

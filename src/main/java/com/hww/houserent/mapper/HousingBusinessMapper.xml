@@ -15,4 +15,12 @@
     <select id="getHousingInformation" parameterType="Integer" resultType="com.hww.houserent.entity.Housing_InformationEntity">
         select * from housing_information where id = #{id}
     </select>
+
+    <select id="checkDuplication" parameterType="com.hww.houserent.entity.Housing_InformationEntity" resultType="Integer">
+        SELECT room_number FROM `housing_information` where
+        position='城中区'
+        and community = '瑞景河畔'
+        AND building_number='16号楼'
+        AND floor='1';
+    </select>
 </mapper>

@@ -13,4 +13,6 @@ public interface HousingBusinessMapper {
     int SingleDeletion(int id);
     /** 编辑 **/
     Housing_InformationEntity getHousingInformation(int id);
+    /** 重复检查 **/
+    Housing_InformationEntity checkDuplication (Housing_InformationEntity housing_informationEntity);
 }

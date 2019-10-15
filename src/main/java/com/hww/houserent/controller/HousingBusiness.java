@@ -6,10 +6,7 @@ import com.hww.houserent.entity.Housing_InformationEntity;
 import com.hww.houserent.service.impl.HousingBusinessImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -70,5 +67,11 @@ public class HousingBusiness {
         Housing_InformationEntity editHouse = housingBusiness.editHouse(fyID);
         map.put("house",editHouse);
         return map;
+    }
+    @GetMapping("/checkFyFhIsExists")
+    public String checkFyFhIsExists(@RequestParam(value = "fyID") int fyID,
+                                    @RequestParam(value = "fyXqCode") String fyXqCode){
+        System.out.println(fyID+""+fyXqCode);
+         return "";
     }
 }
