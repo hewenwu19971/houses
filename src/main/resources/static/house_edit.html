@@ -1,282 +1,309 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>信息管理系统</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<script type="text/javascript" src="scripts/jquery/jquery-1.7.1.js"></script>
-<link href="style/authority/basic_layout.css" rel="stylesheet" type="text/css">
-<link href="style/authority/common_style.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="scripts/authority/commonAll.js"></script>
-<script type="text/javascript" src="scripts/jquery/jquery-1.4.4.min.js"></script>
-<script src="scripts/My97DatePicker/WdatePicker.js" type="text/javascript" defer="defer"></script>
-<script type="text/javascript" src="scripts/artDialog/artDialog.js?skin=default"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
+    <title>信息管理系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link href="style/authority/basic_layout.css" rel="stylesheet" type="text/css">
+    <link href="style/authority/common_style.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="scripts/authority/commonAll.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="scripts/My97DatePicker/WdatePicker.js" type="text/javascript" defer="defer"></script>
+    <script type="text/javascript" src="scripts/artDialog/artDialog.js?skin=default"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
 
-		$.ajax({
-			url:"/house_edits",
-			type: "GET",
-			success: function (data) {
-				console.log(data.house);
-				var information = data.house;
-				$("#fyID").val(information.id);
-				$("#fyXq").val(information.community);
-				$("#fyDh").val(information.building_number);
-				$("#fyCh").val(information.floor);
-				$("#fyFh").val(information.room_number);
-				$("#fyZongMj").val(information.housing_area);
-				$("#fyJizuMj").val(information.rental_area);
-				$("#fyHx").val(information.apartment);
-				$("#fyZldz").val(information.community+""+information.building_number+""+information.floor+"-"+information.room_number);
-				$("#fyJzJg").val(information.building_structure);
-				$("#fyPsdz").val(information.position);
-				$("#fyXz").val(information.nature_of_lease);
-				$("#submitForm_fangyuanEntity_fyStatus").attr("value","2");
-			}
-		});
-		/*
-		 * 提交
-		 */
-		$("#submitbutton").click(function() {
-			if(validateForm()){
-				checkFyFhSubmit();
-			}
-		});
-		
-		/*
-		 * 取消
-		 */
-		$("#cancelbutton").click(function() {
-			/**  关闭弹出iframe  **/
-			window.parent.$.fancybox.close();
-		});
-		
-		var result = 'null';
-		if(result =='success'){
-			/**  关闭弹出iframe  **/
-			window.parent.$.fancybox.close();
-		}
-	});
-	
-	/** 检测房源房号是否存在  **/
-	/*function checkFyFh(){
-		// 分别获取小区编号、栋号、层号、房号
-		var fyID = $('#fyID').val();
-		var fyXqCode = $("#fyXq").val();
-		var fyDh = $("#fyDh").val();
-		var fyCh = $("#fyCh").val();	
-		var fyFh = $("#fyFh").val();
-		if(fyXqCode!="" && fyDh!="" && fyCh!="" && fyFh!=""){
-			// 给房屋坐落地址赋值
-			$("#fyZldz").val($('#fyDh option:selected').text() + fyCh + "-" + fyFh);
-			// 异步判断该房室是否存在，如果已存在，给用户已提示哦
-			$.ajax({
-				type:"GET",
-				url:"/checkFyFhIsExists",
-				data:{"fyID":fyID,"fyXqCode":fyXqCode, "fyDhCode":fyDh, "fyCh":fyCh, "fyFh":fyFh},
-				dataType : "text",
-				success:function(data){
-// 					alert(data);
-					// 如果返回数据不为空，更改“房源信息”
-					if(data=="1"){
-						 art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'该房室在系统中已经存在哦，\n请维护其他房室数据', ok:true,});
-						 $("#fyFh").css("background", "#EEE");
-						 $("#fyFh").focus();
-						 return false;
-					}
-				}
-			});
-		}
-	}
-	*/
-	/** 检测房源房号是否存在并提交form  **/
-	function checkFyFhSubmit(){
-		// 分别获取小区编号、栋号、层号、房号
-		var fyID = $('#fyID').val();
-		var fyXqCode = $("#fyXq").val();
-		var fyDh = $("#fyDh").val();
-		var fyCh = $("#fyCh").val();	
-		var fyFh = $("#fyFh").val();
-		if(fyXqCode!="" && fyDh!="" && fyCh!="" && fyFh!=""){
-			// 给房屋坐落地址赋值
-			$("#fyZldz").val($('#fyDh option:selected').text()  + fyCh + "-" + fyFh);
-			// 异步判断该房室是否存在，如果已存在，给用户已提示哦
-			$.ajax({
-				type:"GET",
-				url:"/checkFyFhIsExists",
-				data:{"fyID":fyID,"fyXqCode":fyXqCode, "fyDhCode":fyDh, "fyCh":fyCh, "fyFh":fyFh},
-				dataType : "text",
-				success:function(data){
-// 					alert(data);
-					// 如果返回数据不为空，更改“房源信息”
-					if(data=="1"){
-						 art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'该房室在系统中已经存在哦，\n请维护其他房室数据', ok:true,});
-						 $("#fyFh").css("background", "#EEE");
-						 $("#fyFh").focus();
-						 return false;
-					}else{
-						$("#submitForm").attr("action", "/xngzf/archives/saveOrUpdateFangyuan.action").submit();
-					}
-				}
-			});
-		}
-		return true;
-	}
-	
-	/** 表单验证  **/
-	function validateForm(){
-		if($("#fyXq").val()==""){
-			art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'填写房源小区', ok:true,});
-			return false;
-		}
-		if($("#fyDh").val()==""){
-			art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'填写房源栋号', ok:true,});
-			return false;
-		}
-		if($("#fyCh").val()==""){
-			art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'填写房源层号', ok:true,});
-			return false;
-		}
-		if($("#fyFh").val()==""){
-			art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'填写房源房号', ok:true,});
-			return false;
-		}
-		if($("#fyZongMj").val()==""){
-			art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'填写房源面积', ok:true,});
-			return false;
-		}
-		if($("#fyJizuMj").val()==""){
-			art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'填写计租面积', ok:true,});
-			return false;
-		}
-		if($("#fyZldz").val()==""){
-			art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'填写房源座落地址', ok:true,});
-			return false;
-		}
-		if($("#fyHx").val()==""){
-			art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'填写房源户型', ok:true,});
-			return false;
-		}if($("#fyJzJg").val()==""){
-			art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'填写房源建筑结构', ok:true,});
-			return false;
-		}
-		if($("#fyPsdz").val()==""){
-			art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'填写房源位置', ok:true,});
-			return false;
-		}
-		if($("#fyXz").val()==""){
-			art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'填写房源性质', ok:true,});
-			return false;
-		}
-		return true;
-	}
-</script>
+            $.ajax({
+                url: "/house_edits",
+                type: "GET",
+                success: function (data) {
+                    console.log(data.house);
+                    var information = data.house;
+                    $("#fyID").val(information.id);
+                    $("#fyXq").val(information.community);
+                    $("#fyDh").val(information.building_number);
+                    $("#fyCh").val(information.floor);
+                    $("#fyFh").val(information.room_number);
+                    $("#fyZongMj").val(information.housing_area);
+                    $("#fyJizuMj").val(information.rental_area);
+                    $("#fyHx").val(information.apartment);
+                    $("#fyZldz").val(information.community + "" + information.building_number + "" + information.floor + "-" + information.room_number);
+                    $("#fyJzJg").val(information.building_structure);
+                    $("#fyPsdz").val(information.position);
+                    $("#fyXz").val(information.nature_of_lease);
+                    $("#submitForm_fangyuanEntity_fyStatus").val(information.state);
+                }
+            });
+            /*
+             * 提交
+             */
+            $("#submitbutton").click(function () {
+                if (validateForm()) {
+                    checkFyFhSubmit();
+                }
+            });
+
+            /*
+             * 取消
+             */
+            $("#cancelbutton").click(function () {
+                /**  关闭弹出iframe  **/
+                window.parent.$.fancybox.close();
+            });
+
+            var result = 'null';
+            if (result == 'success') {
+                /**  关闭弹出iframe  **/
+                window.parent.$.fancybox.close();
+            }
+        });
+
+
+        /** 检测房源房号是否存在并提交form  **/
+        function checkFyFhSubmit() {
+            // 分别获取小区编号、栋号、层号、房号
+            var id = $('#fyID').val();
+            var community = $("#fyXq").val();
+            var building_number = $("#fyDh").val();
+            var floor = $("#fyCh").val();
+            var room_number = $("#fyFh").val();
+            var state = $("#submitForm_fangyuanEntity_fyStatus").val();
+            var nature_of_lease = $("#fyXz").val()
+            var position = $("#fyPsdz").val()
+            var housing_area = $("#fyZongMj").val();
+            var rental_area = $("#fyJizuMj").val();
+            var apartment = $("#fyHx").val();
+            var building_structure = $("#fyJzJg").val();
+
+            if (community != "" && building_number != "" && floor != "" && room_number != "") {
+                // 给房屋坐落地址赋值
+                $("#fyZldz").val($('#fyDh option:selected').text() + floor + "-" + room_number);
+                // 异步判断该房室是否存在，如果已存在，给用户已提示哦
+                var datas = {
+                    "id": id,
+                    "community": community,
+                    "building_number": building_number,
+                    "floor": floor,
+                    "room_number": room_number,
+                    "state":state,
+                    "nature_of_lease":nature_of_lease,
+                    "position":position,
+                    "housing_area":housing_area,
+                    "rental_area":rental_area,
+                    "apartment":apartment,
+                    "building_structure":building_structure
+                };
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "/checkFyFhIsExists",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(datas),
+                    success: function (data) {
+                        // 如果返回数据不为空，更改“房源信息”
+                        if (data == "1") {
+                            art.dialog({
+                                icon: 'error',
+                                title: '友情提示',
+                                drag: false,
+                                resize: false,
+                                content: '该房室在系统中已经存在哦，\n请维护其他房室数据',
+                                ok: true,
+                            });
+                            $("#fyFh").css("background", "#EEE");
+                            $("#fyFh").focus();
+                            return false;
+                        } if (data == "2") {
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "/saveOrUpdateFangyuan",
+                                dataType: "json",
+                                contentType: "application/json",
+                                data: JSON.stringify(datas),
+                                success: function (data) {
+                                    if (data == "1") {
+                                        art.dialog({
+                                                icon: 'succeed',
+                                            title: '友情提示',
+                                            drag: false,
+                                            resize: false,
+                                            content: '更新成功！',
+                                            ok: true,
+                                        });
+                                } if(data == "0"){
+                                        art.dialog({
+                                            icon: 'error',
+                                            title: '友情提示',
+                                            drag: false,
+                                            resize: false,
+                                            content: '更新失败，请重新提交！',
+                                            ok: true,
+                                        });
+                                    }
+                                }
+                            });
+                        }
+
+                    }
+                });
+            }
+            return true;
+        }
+
+        /** 表单验证  **/
+        function validateForm() {
+            if ($("#fyXq").val() == "") {
+                art.dialog({icon: 'error', title: '友情提示', drag: false, resize: false, content: '填写房源小区', ok: true,});
+                return false;
+            }
+            if ($("#fyDh").val() == "") {
+                art.dialog({icon: 'error', title: '友情提示', drag: false, resize: false, content: '填写房源栋号', ok: true,});
+                return false;
+            }
+            if ($("#fyCh").val() == "") {
+                art.dialog({icon: 'error', title: '友情提示', drag: false, resize: false, content: '填写房源层号', ok: true,});
+                return false;
+            }
+            if ($("#fyFh").val() == "") {
+                art.dialog({icon: 'error', title: '友情提示', drag: false, resize: false, content: '填写房源房号', ok: true,});
+                return false;
+            }
+            if ($("#fyZongMj").val() == "") {
+                art.dialog({icon: 'error', title: '友情提示', drag: false, resize: false, content: '填写房源面积', ok: true,});
+                return false;
+            }
+            if ($("#fyJizuMj").val() == "") {
+                art.dialog({icon: 'error', title: '友情提示', drag: false, resize: false, content: '填写计租面积', ok: true,});
+                return false;
+            }
+            if ($("#fyZldz").val() == "") {
+                art.dialog({icon: 'error', title: '友情提示', drag: false, resize: false, content: '填写房源座落地址', ok: true,});
+                return false;
+            }
+            if ($("#fyHx").val() == "") {
+                art.dialog({icon: 'error', title: '友情提示', drag: false, resize: false, content: '填写房源户型', ok: true,});
+                return false;
+            }
+            if ($("#fyJzJg").val() == "") {
+                art.dialog({icon: 'error', title: '友情提示', drag: false, resize: false, content: '填写房源建筑结构', ok: true,});
+                return false;
+            }
+            if ($("#fyPsdz").val() == "") {
+                art.dialog({icon: 'error', title: '友情提示', drag: false, resize: false, content: '填写房源位置', ok: true,});
+                return false;
+            }
+            if ($("#fyXz").val() == "") {
+                art.dialog({icon: 'error', title: '友情提示', drag: false, resize: false, content: '填写房源性质', ok: true,});
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
-<form id="submitForm" name="submitForm" action="/xngzf/archives/initFangyuan.action" method="post">
-	<input type="hidden" name="fyID"  id="fyID"/>
-	<div id="container">
-		<div id="nav_links">
-			当前位置：基础数据&nbsp;>&nbsp;<span style="color: #1A5CC6;">房源编辑</span>
-			<div id="page_close">
-				<a href="javascript:parent.$.fancybox.close();">
-					<img src="images/common/page_close.png" width="20" height="20" style="vertical-align: text-top;"/>
-				</a>
-			</div>
-		</div>
-		<div class="ui_content">
-			<table  cellspacing="0" cellpadding="0" width="100%" align="left" border="0">
-				<tr>
-					<td class="ui_text_rt" width="80">小区</td>
-					<td class="ui_text_lt" >
-						<input type="text" style="margin-left: 6px;" class="ui_input_txt02" id="fyXq">
-					</td>
-				</tr>
-				<tr>
-					<td class="ui_text_rt">栋号</td>
-					<td class="ui_text_lt">
-						<input type="text" style="margin-left: 6px;" class="ui_input_txt02" id="fyDh">
-					</td>
-				</tr>
-				<tr>
-					<td class="ui_text_rt">层号</td>
-					<td class="ui_text_lt">
-						<input type="text" id="fyCh" name="fangyuanEntity.fyCh"   class="ui_input_txt01"/>
-					</td>
-				</tr>
-				<tr>
-					<td class="ui_text_rt">房号</td>
-					<td class="ui_text_lt">
-						<input type="text" id="fyFh" name="fangyuanEntity.fyFh"   class="ui_input_txt01" onkeyup="checkFyFh();"/>室
-					</td>
-				</tr>
-				<tr>
-					<td class="ui_text_rt">房源面积</td>
-					<td class="ui_text_lt">
-						<input type="text" id="fyZongMj" name="fangyuanEntity.fyZongMj"   class="ui_input_txt01"/>㎡
-					</td>
-				</tr>
-				<tr>
-					<td class="ui_text_rt">计租面积</td>
-					<td class="ui_text_lt">
-						<input type="text" id="fyJizuMj" name="fangyuanEntity.fyJizuMj"  class="ui_input_txt01"/>㎡
-					</td>
-				</tr>
-				<tr>
-					<td class="ui_text_rt">户型</td>
-					<td class="ui_text_lt">
-						<input type="text" style="margin-left: 6px;" class="ui_input_txt02" id="fyHx">
-					</td>
-				</tr>
-				<tr>
-					<td class="ui_text_rt">建筑结构</td>
-					<td class="ui_text_lt">
-						<input type="text" style="margin-left: 6px;" class="ui_input_txt02" id="fyJzJg">
-					</td>
-				</tr>
-				<tr>
-					<td class="ui_text_rt">座落</td>
-					<td class="ui_text_lt">
-						<input type="text" id="fyZldz" name="fangyuanEntity.fyZldz"  class="ui_input_txt02"/>
-					</td>
-				</tr>
-				<tr>
-					<td class="ui_text_rt">位置</td>
-					<td class="ui_text_lt">
-						<input type="text" id="fyPsdz" name="fangyuanEntity.fyPsdz"  class="ui_input_txt02"/>
-					</td>
-				</tr>
-				<tr>
-					<td class="ui_text_rt">性质</td>
-					<td class="ui_text_lt">
-						<input type="text" style="margin-left: 6px;" class="ui_input_txt02" id="fyXz">
-					</td>
-				</tr>
-				<tr>
-					<td class="ui_text_rt">状态</td>
-					<td class="ui_text_lt">
-						<select name="fangyuanEntity.fyStatus" id="submitForm_fangyuanEntity_fyStatus" class="ui_select01">
+<form id="submitForm" name="submitForm" action="/xngzf/archives/initFangyuan.action" method="POST">
+    <input type="hidden" name="id" id="fyID"/>
+    <div id="container">
+        <div id="nav_links">
+            当前位置：基础数据&nbsp;>&nbsp;<span style="color: #1A5CC6;">房源编辑</span>
+            <div id="page_close">
+                <a href="javascript:parent.$.fancybox.close();">
+                    <img src="images/common/page_close.png" width="20" height="20" style="vertical-align: text-top;"/>
+                </a>
+            </div>
+        </div>
+        <div class="ui_content">
+            <table cellspacing="0" cellpadding="0" width="100%" align="left" border="0">
+                <tr>
+                    <td class="ui_text_rt" width="80">小区</td>
+                    <td class="ui_text_lt">
+                        <input type="text" style="margin-left: 6px;" class="ui_input_txt02" id="fyXq" name="community">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="ui_text_rt">栋号</td>
+                    <td class="ui_text_lt">
+                        <input type="text" style="margin-left: 6px;" class="ui_input_txt02" id="fyDh"
+                               name="building_number">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="ui_text_rt">层号</td>
+                    <td class="ui_text_lt">
+                        <input type="text" id="fyCh" name="floor" class="ui_input_txt01"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="ui_text_rt">房号</td>
+                    <td class="ui_text_lt">
+                        <input type="text" id="fyFh" name="room_number" class="ui_input_txt01" onkeyup="checkFyFh();"/>室
+                    </td>
+                </tr>
+                <tr>
+                    <td class="ui_text_rt">房源面积</td>
+                    <td class="ui_text_lt">
+                        <input type="text" id="fyZongMj" name="housing_area" class="ui_input_txt01"/>㎡
+                    </td>
+                </tr>
+                <tr>
+                    <td class="ui_text_rt">计租面积</td>
+                    <td class="ui_text_lt">
+                        <input type="text" id="fyJizuMj" name="rental_area" class="ui_input_txt01"/>㎡
+                    </td>
+                </tr>
+                <tr>
+                    <td class="ui_text_rt">户型</td>
+                    <td class="ui_text_lt">
+                        <input type="text" style="margin-left: 6px;" class="ui_input_txt02" id="fyHx" name="apartment">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="ui_text_rt">建筑结构</td>
+                    <td class="ui_text_lt">
+                        <input type="text" style="margin-left: 6px;" class="ui_input_txt02" id="fyJzJg"
+                               name="building_structure">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="ui_text_rt">位置</td>
+                    <td class="ui_text_lt">
+                        <input type="text" id="fyPsdz" name="position" class="ui_input_txt02"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="ui_text_rt">性质</td>
+                    <td class="ui_text_lt">
+                        <input type="text" style="margin-left: 6px;" class="ui_input_txt02" id="fyXz"
+                               name="nature_of_lease">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="ui_text_rt">状态</td>
+                    <td class="ui_text_lt">
+                        <select name="state" id="submitForm_fangyuanEntity_fyStatus" class="ui_select01">
                             <option value="">--请选择--</option>
-                            <option value="1">在建</option>
-                            <option value="2">建成待租</option>
-                            <option value="3">已配租</option>
-                            <option value="4">已租赁</option>
-                            <option value="5">腾退待租</option>
-                            <option value="6">欠费</option>
-                            <option value="7">其他</option>
+                            <option value="在建">在建</option>
+                            <option value="建成待租">建成待租</option>
+                            <option value="已配租">已配租</option>
+                            <option value="已租赁">已租赁</option>
+                            <option value="腾退待租">腾退待租</option>
+                            <option value="欠费">欠费</option>
+                            <option value="其他">其他</option>
                         </select>
-					</td>
-				</tr>
-				<tr>
-					<td>&nbsp;</td>
-					<td class="ui_text_lt">
-						&nbsp;<input id="submitbutton" type="button" value="提交" class="ui_input_btn01"/>
-						&nbsp;<input id="cancelbutton" type="button" value="取消" class="ui_input_btn01"/>
-					</td>
-				</tr>
-			</table>
-		</div>
-	</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td class="ui_text_lt">
+                        &nbsp;<input id="submitbutton" type="button" value="提交" class="ui_input_btn01"/>
+                        &nbsp;<input id="cancelbutton" type="button" value="取消" class="ui_input_btn01"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </form>
 
 </body>

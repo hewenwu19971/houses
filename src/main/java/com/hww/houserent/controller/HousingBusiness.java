@@ -62,16 +62,30 @@ public class HousingBusiness {
     @ResponseBody
     @RequestMapping("/house_edits")
     public Map house_edits(HttpSession session) {
-       Map<String, Object> map = new  HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<String, Object>();
         int fyID = (int) session.getAttribute("fyID");
         Housing_InformationEntity editHouse = housingBusiness.editHouse(fyID);
-        map.put("house",editHouse);
+        map.put("house", editHouse);
         return map;
     }
-    @GetMapping("/checkFyFhIsExists")
-    public String checkFyFhIsExists(@RequestParam(value = "fyID") int fyID,
-                                    @RequestParam(value = "fyXqCode") String fyXqCode){
-        System.out.println(fyID+""+fyXqCode);
-         return "";
+
+    @ResponseBody
+    @PostMapping(value = "/checkFyFhIsExists")
+    public String checkFyFhIsExists(@RequestBody Housing_InformationEntity housing_informationEntity) {
+        Housing_InformationEntity entity = housingBusiness.inspect(housing_informationEntity);
+        if (entity != null) {
+            return "1";
+        }
+        return "2";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/saveOrUpdateFangyuan",method = RequestMethod.POST)
+    public String saveOrUpdateFangyuan(@RequestBody Housing_InformationEntity housing_informationEntity) {
+        int i = housingBusiness.updateInformation(housing_informationEntity);
+        if (i > 0){
+            return "1";
+        }
+        return "0";
     }
 }

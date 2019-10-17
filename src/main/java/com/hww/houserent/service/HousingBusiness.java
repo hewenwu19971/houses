@@ -10,4 +10,6 @@ public interface HousingBusiness {
     List<Housing_InformationEntity> getHouse();
     int delHouse(int id);
     Housing_InformationEntity editHouse(int id);
+    Housing_InformationEntity inspect(Housing_InformationEntity housing_informationEntity);
+    int updateInformation(Housing_InformationEntity housing_informationEntity);
 }

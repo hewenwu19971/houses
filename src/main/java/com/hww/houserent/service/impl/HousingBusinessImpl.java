@@ -29,5 +29,15 @@ public class HousingBusinessImpl implements HousingBusiness {
     public Housing_InformationEntity editHouse(int id) {
         return housingBusinessMapper.getHousingInformation(id);
     }
+
+    @Override
+    public Housing_InformationEntity inspect(Housing_InformationEntity housing_informationEntity) {
+        return housingBusinessMapper.checkDuplication(housing_informationEntity);
+    }
+
+    @Override
+    public int updateInformation(Housing_InformationEntity housing_informationEntity) {
+        return housingBusinessMapper.updataFanYuan(housing_informationEntity);
+    }
 }
 

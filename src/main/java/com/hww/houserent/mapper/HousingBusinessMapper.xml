@@ -16,11 +16,16 @@
         select * from housing_information where id = #{id}
     </select>
 
-    <select id="checkDuplication" parameterType="com.hww.houserent.entity.Housing_InformationEntity" resultType="Integer">
-        SELECT room_number FROM `housing_information` where
-        position='城中区'
-        and community = '瑞景河畔'
-        AND building_number='16号楼'
-        AND floor='1';
+    <select id="checkDuplication" parameterType="com.hww.houserent.entity.Housing_InformationEntity" resultType="com.hww.houserent.entity.Housing_InformationEntity">
+        select * from housing_information where community=#{community} and building_number=#{building_number}
+        and floor=#{floor} and room_number=#{room_number}
     </select>
+
+    <update id="updataFanYuan" parameterType="com.hww.houserent.entity.Housing_InformationEntity">
+        update housing_information set position=#{position},community=#{community},
+        building_number=#{building_number},floor=#{floor},room_number=#{room_number},
+        housing_area=#{housing_area},rental_area=#{rental_area},apartment=#{apartment},
+        building_structure=#{building_structure},nature_of_lease=#{nature_of_lease},
+        state=#{state} where id = #{id}
+    </update>
 </mapper>

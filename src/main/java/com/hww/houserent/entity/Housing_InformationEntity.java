@@ -14,7 +14,7 @@ package com.hww.houserent.entity;
  * 状态
  */
 public class Housing_InformationEntity {
-   private int id;
+    private int id;
     private String position;//位置
     private String community;//小区
     private String building_number;//楼栋号
