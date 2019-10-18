@@ -2,21 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace = "com.hww.houserent.mapper.HousingBusinessMapper" >
+<mapper namespace="com.hww.houserent.mapper.HousingBusinessMapper">
 
     <select id="getPropertyInformation" resultType="com.hww.houserent.entity.Housing_InformationEntity">
-        select * from housing_information
+        select * from housing_information ORDER BY floor
     </select>
 
     <delete id="SingleDeletion" parameterType="Integer">
         delete from housing_information where id = #{id}
     </delete>
 
-    <select id="getHousingInformation" parameterType="Integer" resultType="com.hww.houserent.entity.Housing_InformationEntity">
+    <select id="getHousingInformation" parameterType="Integer"
+            resultType="com.hww.houserent.entity.Housing_InformationEntity">
         select * from housing_information where id = #{id}
     </select>
 
-    <select id="checkDuplication" parameterType="com.hww.houserent.entity.Housing_InformationEntity" resultType="com.hww.houserent.entity.Housing_InformationEntity">
+    <select id="checkDuplication" parameterType="com.hww.houserent.entity.Housing_InformationEntity"
+            resultType="com.hww.houserent.entity.Housing_InformationEntity">
         select * from housing_information where community=#{community} and building_number=#{building_number}
         and floor=#{floor} and room_number=#{room_number}
     </select>
@@ -28,4 +30,20 @@
         building_structure=#{building_structure},nature_of_lease=#{nature_of_lease},
         state=#{state} where id = #{id}
     </update>
+
+    <insert id="insertFanYuan" parameterType="com.hww.houserent.entity.Housing_InformationEntity">
+        insert into housing_information(position,community,building_number,floor,
+        room_number,housing_area,rental_area,apartment,building_structure,nature_of_lease,state)
+        values (#{position},#{community}, #{building_number},#{floor},#{room_number},
+        #{housing_area},#{rental_area},#{apartment},
+        #{building_structure},#{nature_of_lease},#{state})
+    </insert>
+
+    <delete id="deleteFanYuan" parameterType="int[]">
+
+            delete from housing_information where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

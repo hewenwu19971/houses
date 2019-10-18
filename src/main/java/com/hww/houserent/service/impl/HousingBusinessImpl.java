@@ -39,5 +39,15 @@ public class HousingBusinessImpl implements HousingBusiness {
     public int updateInformation(Housing_InformationEntity housing_informationEntity) {
         return housingBusinessMapper.updataFanYuan(housing_informationEntity);
     }
+
+    @Override
+    public int addInformation(Housing_InformationEntity housing_informationEntity) {
+        return housingBusinessMapper.insertFanYuan(housing_informationEntity);
+    }
+
+    @Override
+    public int batchDeletion(int[] id) {
+        return housingBusinessMapper.deleteFanYuan(id);
+    }
 }
 

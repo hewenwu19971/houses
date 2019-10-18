@@ -18,4 +18,8 @@ public interface HousingBusinessMapper {
     Housing_InformationEntity checkDuplication (Housing_InformationEntity housing_informationEntity);
     /** 更新操作**/
     int updataFanYuan (Housing_InformationEntity housing_informationEntity);
+    /** 添加操作 **/
+    int insertFanYuan(Housing_InformationEntity housing_informationEntity);
+    /** 批量删除 **/
+    int deleteFanYuan(int[] id);
 }

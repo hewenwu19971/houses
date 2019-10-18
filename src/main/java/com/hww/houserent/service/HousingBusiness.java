@@ -12,4 +12,6 @@ public interface HousingBusiness {
     Housing_InformationEntity editHouse(int id);
     Housing_InformationEntity inspect(Housing_InformationEntity housing_informationEntity);
     int updateInformation(Housing_InformationEntity housing_informationEntity);
+    int addInformation(Housing_InformationEntity housing_informationEntity);
+    int batchDeletion(int[] id);
 }

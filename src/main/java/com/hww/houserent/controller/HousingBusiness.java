@@ -55,7 +55,9 @@ public class HousingBusiness {
     @RequestMapping("/house_edit")
     public String houseEdit(@RequestParam(value = "fyID") int fyID,
                             HttpSession session) {
-        session.setAttribute("fyID", fyID);
+        if (fyID > 0){
+            session.setAttribute("fyID", fyID);
+        }
         return "house_edit.html";
     }
 
@@ -63,10 +65,14 @@ public class HousingBusiness {
     @RequestMapping("/house_edits")
     public Map house_edits(HttpSession session) {
         Map<String, Object> map = new HashMap<String, Object>();
-        int fyID = (int) session.getAttribute("fyID");
-        Housing_InformationEntity editHouse = housingBusiness.editHouse(fyID);
-        map.put("house", editHouse);
-        return map;
+        if(session.getAttribute("fyID") != null){
+            int fyID = (int) session.getAttribute("fyID");
+            Housing_InformationEntity editHouse = housingBusiness.editHouse(fyID);
+            session.removeAttribute("fyID");
+            map.put("house", editHouse);
+            return map;
+        }
+       return map;
     }
 
     @ResponseBody
@@ -81,11 +87,27 @@ public class HousingBusiness {
 
     @ResponseBody
     @RequestMapping(value = "/saveOrUpdateFangyuan",method = RequestMethod.POST)
-    public String saveOrUpdateFangyuan(@RequestBody Housing_InformationEntity housing_informationEntity) {
+    public String saveOrUpdateFangyuan(@RequestBody Housing_InformationEntity housing_informationEntity,
+                                       HttpSession session) {
         int i = housingBusiness.updateInformation(housing_informationEntity);
         if (i > 0){
             return "1";
         }
         return "0";
+    }
+    @ResponseBody
+    @RequestMapping(value = "/newlyAddedFangyuan",method = RequestMethod.POST)
+    public String newlyAddedFangyuan(@RequestBody Housing_InformationEntity housing_informationEntity) {
+        int i = housingBusiness.addInformation(housing_informationEntity);
+        if (i > 0){
+            return "1";
+        }
+        return "0";
+    }
+
+    @RequestMapping("/batchDelFangyuan")
+    public String batchDelFangyuan(@RequestParam(value = "IDCheck") int[] IDCheck){
+        int i = housingBusiness.batchDeletion(IDCheck);
+        return "/house_list.html";
     }
 }

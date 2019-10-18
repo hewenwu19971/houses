@@ -104,6 +104,7 @@
 
         /** 批量删除 **/
         function batchDel() {
+            var listData = new Array();
             if ($("input[name='IDCheck']:checked").size() <= 0) {
                 art.dialog({icon: 'error', title: '友情提示', drag: false, resize: false, content: '至少选择一条', ok: true,});
                 return;
@@ -111,26 +112,17 @@
             // 1）取出用户选中的checkbox放入字符串传给后台,form提交
             var allIDCheck = "";
             $("input[name='IDCheck']:checked").each(function (index, domEle) {
-                bjText = $(domEle).parent("td").parent("tr").last().children("td").last().prev().text();
-// 			alert(bjText);
-                // 用户选择的checkbox, 过滤掉“已审核”的，记住哦
-                if ($.trim(bjText) == "已审核") {
-// 				$(domEle).removeAttr("checked");
-                    $(domEle).parent("td").parent("tr").css({color: "red"});
-                    $("#resultInfo").html("已审核的是不允许您删除的，请联系管理员删除！！！");
-// 				return;
-                } else {
-                    allIDCheck += $(domEle).val() + ",";
-                }
+                listData.push(domEle.value);
+                console.log("index: "+index+", 被选中的value值："+domEle.value+","+listData);
             });
             // 截掉最后一个","
-            if (allIDCheck.length > 0) {
-                allIDCheck = allIDCheck.substring(0, allIDCheck.length - 1);
+            if (listData.length > 0) {
+
                 // 赋给隐藏域
-                $("#allIDCheck").val(allIDCheck);
+                $("#allIDCheck").val(listData);
                 if (confirm("您确定要批量删除这些记录吗？")) {
                     // 提交form
-                    $("#submitForm").attr("action", "/xngzf/archives/batchDelFangyuan.action").submit();
+                    $("#submitForm").attr("action", "/batchDelFangyuan").submit();
                 }
             }
         }
@@ -155,7 +147,7 @@
                 $('.table tr').slice(1).remove();
                 $.each(list, function (index, item) {
                     $("table").append("<tr>\n" +
-                        "\t<td><input type=\"checkbox\" name=\"IDCheck\" value=\"14458579642011\" class=\"acb\" /></td>\n" +
+                        "\t<td><input type=\"checkbox\" name=\"IDCheck\" value=\""+item.id+"\" class=\"acb\" /></td>\n" +
                         "\t<td>" + item.position + "</td>\n" +
                         "\t<td >" + item.community + "" + item.building_number + "" + item.floor + "-" + item.room_number + "</td>\n" +
                         "\t<td>" + item.housing_area + "</td>\n" +
