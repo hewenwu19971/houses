@@ -22,4 +22,12 @@ public interface HousingBusinessMapper {
     int insertFanYuan(Housing_InformationEntity housing_informationEntity);
     /** 批量删除 **/
     int deleteFanYuan(int[] id);
+    /** 去重**/
+    List<String> SelectCommunity();
+    /** 获取栋号**/
+    List<String> selectNumber(String fyxq);
+    /** 获取户型**/
+    List<String> selectApartment(Map map);
+    /** 获取状态**/
+    List<String> selectState(Map map);
 }

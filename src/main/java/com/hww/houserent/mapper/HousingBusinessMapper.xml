@@ -5,7 +5,7 @@
 <mapper namespace="com.hww.houserent.mapper.HousingBusinessMapper">
 
     <select id="getPropertyInformation" resultType="com.hww.houserent.entity.Housing_InformationEntity">
-        select * from housing_information ORDER BY floor
+        select * from housing_information ORDER BY community
     </select>
 
     <delete id="SingleDeletion" parameterType="Integer">
@@ -46,4 +46,18 @@
             #{id}
         </foreach>
     </delete>
+
+    <select id="SelectCommunity" resultType="String">
+        select distinct community from housing_information
+    </select>
+
+    <select id="selectNumber" parameterType="String" resultType="String">
+        select distinct building_number from housing_information where community = #{fyxq}
+    </select>
+    <select id="selectApartment" parameterType="map" resultType="String">
+        select distinct apartment from housing_information where building_number = #{fyDhCode} and community = #{fyXqCode}
+    </select>
+    <select id="selectState" parameterType="map" resultType="String">
+        select distinct state from housing_information where building_number = #{fyDhCode} and community = #{fyXqCode} and apartment=#{fyHxCode}
+    </select>
 </mapper>

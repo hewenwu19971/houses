@@ -2,7 +2,7 @@ package com.hww.houserent.service.impl;
 
 import com.hww.houserent.entity.Housing_InformationEntity;
 import com.hww.houserent.mapper.HousingBusinessMapper;
-import com.hww.houserent.service.HousingBusiness;
+import com.hww.houserent.service.HousingBusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class HousingBusinessImpl implements HousingBusiness {
+public class HousingBusinessImpl implements HousingBusinessService {
     @Autowired
     private HousingBusinessMapper housingBusinessMapper;
 
@@ -48,6 +48,26 @@ public class HousingBusinessImpl implements HousingBusiness {
     @Override
     public int batchDeletion(int[] id) {
         return housingBusinessMapper.deleteFanYuan(id);
+    }
+
+    @Override
+    public List<String> searchArea() {
+        return housingBusinessMapper.SelectCommunity();
+    }
+
+    @Override
+    public List<String> getNumber(String fyXqCode) {
+        return housingBusinessMapper.selectNumber(fyXqCode);
+    }
+
+    @Override
+    public List<String> getApartment(Map map) {
+        return housingBusinessMapper.selectApartment(map);
+    }
+
+    @Override
+    public List<String> getState(Map map) {
+        return housingBusinessMapper.selectState(map);
     }
 }
 

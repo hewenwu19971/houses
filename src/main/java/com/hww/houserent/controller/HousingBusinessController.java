@@ -17,7 +17,7 @@ import java.util.Map;
  * 住房业务逻辑控制器
  */
 @Controller
-public class HousingBusiness {
+public class HousingBusinessController {
     @Autowired
     private HousingBusinessImpl housingBusiness;
 
@@ -109,5 +109,43 @@ public class HousingBusiness {
     public String batchDelFangyuan(@RequestParam(value = "IDCheck") int[] IDCheck){
         int i = housingBusiness.batchDeletion(IDCheck);
         return "/house_list.html";
+    }
+    @ResponseBody
+    @RequestMapping("/searchArea")
+    public List<String> searchArea(){
+        List<String> list = housingBusiness.searchArea();
+        return list;
+    }
+    @ResponseBody
+    @RequestMapping("/getFyDhListByFyXqCode")
+    public List<String> getFyDhListByFyXqCode(@RequestParam(value = "fyXqCode") String fyXqCode){
+        List<String> list = housingBusiness.getNumber(fyXqCode);
+        return list;
+    }
+    @ResponseBody
+    @RequestMapping("/getFyDhListByFyDhCode")
+    public List<String> getFyDhListByFyDhCode(@RequestBody Map<String,Object> map){
+        System.out.println(map);
+        List<String> list = housingBusiness.getApartment(map);
+        return list;
+    }
+    @ResponseBody
+    @RequestMapping("/getFyDhListByFyHxCode")
+    public List<String> getFyDhListByFyHxCode(@RequestBody Map<String,Object> map){
+        System.out.println(map);
+        List<String> list = housingBusiness.getState(map);
+        return list;
+    }
+    @ResponseBody
+    @RequestMapping("/search")
+    public PageInfo search(@RequestBody Map<String,Object> map){
+        System.out.println(map);
+        PageInfo<Housing_InformationEntity> entityPageInfo = null;
+       /* if (page > 0) {
+            PageHelper.startPage(page, 10);
+            List<Housing_InformationEntity> housingInformationEntityList = housingBusiness.getHouse();
+            entityPageInfo = new PageInfo<>(housingInformationEntityList);
+        }*/
+        return entityPageInfo;
     }
 }

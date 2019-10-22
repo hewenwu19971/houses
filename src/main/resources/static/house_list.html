@@ -22,6 +22,19 @@
                 }
             });
 
+            setTimeout(function () {
+                $.ajax({
+                    url: "/searchArea",
+                    type: "GET",
+                    success: function (data) {
+                        console.log(data);
+                        for (var i = 0; i < data.length; i++) {
+                            $("#fyXq").append("<option value='" + data[i] + "'>" + data[i] + "</option>");
+                        }
+                    }
+                });
+            }, 500)
+
             /**编辑   **/
             $("a .edit").fancybox({
                 'href': 'house_edit.html',
@@ -68,7 +81,26 @@
 
         /** 模糊查询来电用户  **/
         function search() {
-            // $("#submitForm").attr("action", "house_list.html?page=" + 1).submit();
+            var fyXq = $("#fyXq").val();
+            var fyDh = $("#fyDh").val();
+            var fyHx = $("#fyHx").val();
+            var fyStatus = $("#fyStatus").val();
+            var map = {
+                "fyHxCode": fyHx,
+                "fyXqCode": fyXq,
+                "fyDhCode": fyDh,
+                "fyStatus": fyStatus
+            };
+            $.ajax({
+                url: "/search",
+                type: "GET",
+                data:JSON.stringify(map),
+                dataType: "json",
+                contentType: 'application/json;charset=utf-8',
+                success: function (data) {
+                    fun(data);
+                }
+            });
         }
 
         /** 新增   **/
@@ -113,7 +145,7 @@
             var allIDCheck = "";
             $("input[name='IDCheck']:checked").each(function (index, domEle) {
                 listData.push(domEle.value);
-                console.log("index: "+index+", 被选中的value值："+domEle.value+","+listData);
+                console.log("index: " + index + ", 被选中的value值：" + domEle.value + "," + listData);
             });
             // 截掉最后一个","
             if (listData.length > 0) {
@@ -147,7 +179,7 @@
                 $('.table tr').slice(1).remove();
                 $.each(list, function (index, item) {
                     $("table").append("<tr>\n" +
-                        "\t<td><input type=\"checkbox\" name=\"IDCheck\" value=\""+item.id+"\" class=\"acb\" /></td>\n" +
+                        "\t<td><input type=\"checkbox\" name=\"IDCheck\" value=\"" + item.id + "\" class=\"acb\" /></td>\n" +
                         "\t<td>" + item.position + "</td>\n" +
                         "\t<td >" + item.community + "" + item.building_number + "" + item.floor + "-" + item.room_number + "</td>\n" +
                         "\t<td>" + item.housing_area + "</td>\n" +
@@ -260,22 +292,16 @@
                     <div id="box_top">搜索</div>
                     <div id="box_center">
                         小区
-                        <select id="fyXq" class="ui_select01"
-                                onchange="getFyDhListByFyXqCode();">
-                            <option value=""
-                            >--请选择--
-                            </option>
-                            <option value="6">瑞景河畔</option>
-                            <option value="77">蔚蓝小区</option>
-                            <option value="83">和盛园小区</option>
+                        <select id="fyXq" class="ui_select01" onchange="getFyDhListByFyXqCode();">
+                            <option value="">--请选择--</option>
                         </select>
 
                         栋号
-                        <select id="fyDh" class="ui_select01">
+                        <select id="fyDh" class="ui_select01" onchange="getFyDhListByFyDhCode();">
                             <option value="">--请选择--</option>
                         </select>
                         户型
-                        <select id="fyHx" class="ui_select01">
+                        <select id="fyHx" class="ui_select01" onchange="getFyDhListByFyHxCode();">
                             <option value="">--请选择--</option>
                             <option value="76">一室一厅一卫</option>
                             <option value="10">两室一厅一卫</option>
@@ -294,8 +320,6 @@
                             <option value="27">其他</option>
                         </select>
 
-                        座落&nbsp;&nbsp;<input type="text" id="fyZldz"
-                                             class="ui_input_txt02"/>
                     </div>
                     <div id="box_bottom">
                         <input type="button" value="查询" class="ui_input_btn01" onclick="search();"/>
