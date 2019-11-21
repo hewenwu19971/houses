@@ -37,7 +37,8 @@ public class HousingBusinessController {
     @RequestMapping(value = "/getAllInformation", method = RequestMethod.GET)
     public PageInfo getAllInformation(@RequestParam(value = "page", required = false, defaultValue = "1") int page) {
         PageInfo<Housing_InformationEntity> entityPageInfo = null;
-        if (page > 0) {
+        System.out.println(page);
+        if (page >= 1) {
             PageHelper.startPage(page, 10);
             List<Housing_InformationEntity> housingInformationEntityList = housingBusiness.getHouse();
             entityPageInfo = new PageInfo<>(housingInformationEntityList);
@@ -45,13 +46,23 @@ public class HousingBusinessController {
         return entityPageInfo;
     }
 
+    /**
+     * 删除
+     * @param fyID
+     * @return
+     */
     @RequestMapping("/delFangyuan")
     public String delFangYuan(@RequestParam(value = "fyID") int fyID) {
         housingBusiness.delHouse(fyID);
         return "/house_list.html";
     }
 
-
+    /**
+     * 编辑
+     * @param fyID
+     * @param session
+     * @return
+     */
     @RequestMapping("/house_edit")
     public String houseEdit(@RequestParam(value = "fyID") int fyID,
                             HttpSession session) {

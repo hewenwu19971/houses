@@ -94,7 +94,7 @@
             $.ajax({
                 url: "/search",
                 type: "GET",
-                data:JSON.stringify(map),
+                data: JSON.stringify(map),
                 dataType: "json",
                 contentType: 'application/json;charset=utf-8',
                 success: function (data) {
@@ -161,21 +161,52 @@
 
         /** 普通跳转 **/
         function jumpNormalPages(page) {
-
-            $.ajax({
-                url: "/getAllInformation?page=" + page,
-                type: "GET",
-                success: function (data) {
-                    fun(data);
-                }
-            })
+            console.log("普通跳转" + page)
+            if (page >= 1) {
+                $.ajax({
+                    url: "/getAllInformation?page=" + page,
+                    type: "GET",
+                    success: function (data) {
+                        fun(data);
+                    }
+                });
+            } else {
+               alert("没有数据了！")
+            }
         }
 
+
+        /** 输入页跳转 **/
+        function jumpInputPage(totalPage) {
+            // 如果“跳转页数”不为空
+            if ($("#jumpNumTxt").val() != '') {
+                var pageNum = parseInt($("#jumpNumTxt").val());
+                // 如果跳转页数在不合理范围内
+                if (pageNum < 1 | pageNum > totalPage) {
+                    alert("请输入合适的页数！！");
+                } else {
+                    $.ajax({
+                        url: "/getAllInformation?page=" + pageNum,
+                        type: "GET",
+                        success: function (data) {
+                            fun(data);
+                        }
+                    });
+                }
+
+            } else {
+                // “跳转页数”为空
+                alert("跳转页数不能为空")
+            }
+        }
+
+        var i = 1;
+
         function fun(data) {
-            console.log(data.pageNum, data.pages, data);
+            console.log(i++);
             if (data.list != null) {
                 var list = data.list;
-                console.log(data);
+                console.log(data.list);
                 $('.table tr').slice(1).remove();
                 $.each(list, function (index, item) {
                     $("table").append("<tr>\n" +
@@ -226,54 +257,6 @@
                     "</div>\n" +
                     "</div>")
 
-            } else {
-                art.dialog({
-                    icon: 'error',
-                    title: '友情提示',
-                    drag: false,
-                    resize: false,
-                    content: '没有下一页数据！',
-                    ok: true,
-                });
-            }
-        }
-
-
-        /** 输入页跳转 **/
-        function jumpInputPage(totalPage) {
-            // 如果“跳转页数”不为空
-            if ($("#jumpNumTxt").val() != '') {
-                var pageNum = parseInt($("#jumpNumTxt").val());
-                // 如果跳转页数在不合理范围内
-                if (pageNum < 1 | pageNum > totalPage) {
-                    art.dialog({
-                        icon: 'error',
-                        title: '友情提示',
-                        drag: false,
-                        resize: false,
-                        content: '请输入合适的页数',
-                        ok: true,
-                    });
-                } else {
-                    $.ajax({
-                        url: "/getAllInformation?page=" + pageNum,
-                        type: "GET",
-                        success: function (data) {
-                            fun(data);
-                        }
-                    });
-                }
-
-            } else {
-                // “跳转页数”为空
-                art.dialog({
-                    icon: 'error',
-                    title: '友情提示',
-                    drag: false,
-                    resize: false,
-                    content: '请输入页数',
-                    ok: true,
-                });
             }
         }
     </script>
