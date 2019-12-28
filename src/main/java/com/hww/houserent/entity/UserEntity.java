@@ -1,12 +1,15 @@
 package com.hww.houserent.entity;
 
+import java.io.Serializable;
+
 /**
  * User 表实体类
  * id id编号
  * username 用户名
  * password 密码
  */
-public class UserEntity {
+
+public class UserEntity implements Serializable {
     private Integer id;
     private String username;
     private String password;

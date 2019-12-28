@@ -1,5 +1,7 @@
 package com.hww.houserent.entity;
 
+import java.io.Serializable;
+
 /**
  * 位置
  * 小区
@@ -13,7 +15,7 @@ package com.hww.houserent.entity;
  * 建筑结构
  * 状态
  */
-public class Housing_InformationEntity {
+public class Housing_InformationEntity implements Serializable {
     private int id;
     private String position;//位置
     private String community;//小区

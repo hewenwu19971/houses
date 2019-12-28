@@ -10,7 +10,7 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://localhost:3306/backstage_management_of_housing?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=UTC
       username: root
-      password: 123456
+      password: root
       initial-size: 1
       min-idle: 1
       max-active: 20
@@ -37,3 +37,8 @@ spring:
       rowBoundsWithCount: true
       offsetAsPageNum: true
 
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password:

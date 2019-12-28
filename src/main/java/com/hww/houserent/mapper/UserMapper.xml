@@ -2,12 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-    <mapper namespace = "com.hww.houserent.mapper.UserMapper" >
+<mapper namespace="com.hww.houserent.mapper.UserMapper">
 
 
-    <select id="byUserName"  parameterType="String" resultType="com.hww.houserent.entity.UserEntity">
+    <select id="byUserName" parameterType="String" resultType="com.hww.houserent.entity.UserEntity">
         select password from user where username = #{username}
     </select>
 
+    <select id="getUserByName" parameterType="String" resultType="com.hww.houserent.entity.UserEntity">
+    select * from user where username= #{username}
+    </select>
 
+    <select id="getPermissions" parameterType="String" resultType="String">
+        SELECT p.permissionname FROM user u
+          INNER JOIN role r ON u.roleid=r.id
+            INNER JOIN permission p ON p.roleid=r.id
+             where u.username = #{username}
+    </select>
+
+    <select id="getRoles" parameterType="String" resultType="String">
+        SELECT r.rolename FROM `user`u INNER JOIN role r on r.id=u.roleid WHERE u.username=#{username}
+
+    </select>
 </mapper>
