@@ -18,8 +18,8 @@ public class HousingBusinessImpl implements HousingBusinessService {
 
 
     @Override
-    public List<Housing_InformationEntity> getHouse() {
-         return housingBusinessMapper.getPropertyInformation();
+    public List<Housing_InformationEntity> getHouse(Map map) {
+         return housingBusinessMapper.getPropertyInformation(map);
     }
 
     @Override

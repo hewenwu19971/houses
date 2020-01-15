@@ -24,30 +24,6 @@ public class UserController {
     @Autowired
     private UserServiceImpl userService;
 
-    /**
-     * 登录操作
-     * @param username
-     * @param password
-     * @param session
-     * @param modelMap
-     * @return
-     */
-    @RequestMapping("/signin")
-    public String login(@RequestParam(name = "username")String username,
-                        @RequestParam(name = "password")String password,
-                        HttpSession session, ModelMap modelMap){
-        UserEntity userEntity = userService.login(username);
-        String oldpassword = userEntity.getPassword();
-        if (oldpassword != null){
-            if (password.equals(oldpassword)){
-                session.setAttribute("username",username);
-                return "redirect:/index.html";
-            }
-        }
-        return "redirect:/login.html";
-    }
-
-
 
     @RequestMapping(value = "/tologin")
     public String tologin() {
@@ -55,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/login")
-    public String loging(UserEntity user, Model model) {
+    public String loging(UserEntity user, HttpSession session) {
         System.out.println("user对象：》》》》》》》》》》"+user);
         //获取当前主体
         Subject subject = SecurityUtils.getSubject();
@@ -79,42 +55,9 @@ public class UserController {
             System.out.println("不晓得什么异常");
             return "redirect:/login.html";
         }
+        session.setAttribute("username",user.getUsername());
         return "redirect:/index.html";
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * 登出操作，返回到登录页面
@@ -124,6 +67,9 @@ public class UserController {
     @RequestMapping("loginout")
     public String loginOut(HttpSession session){
         session.removeAttribute("username");
+        //获取当前主体
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
         return "redirect:/login.html";
     }
 

@@ -92,11 +92,11 @@
                 "fyStatus": fyStatus
             };
             $.ajax({
-                url: "/search",
-                type: "GET",
-                data: JSON.stringify(map),
+                url: "/getAllInformation",
+                type: "post",
+                data: map,
                 dataType: "json",
-                contentType: 'application/json;charset=utf-8',
+                contentType: 'application/x-www-form-urlencoded',
                 success: function (data) {
                     fun(data);
                 }
@@ -111,16 +111,7 @@
         /** Excel导出  **/
         function exportExcel() {
             if (confirm('您确定要导出吗？')) {
-                var fyXqCode = $("#fyXq").val();
-                var fyXqName = $('#fyXq option:selected').text();
-//	 		alert(fyXqCode);
-                if (fyXqCode == "" || fyXqCode == null) {
-                    $("#fyXqName").val("");
-                } else {
-//	 			alert(fyXqCode);
-                    $("#fyXqName").val(fyXqName);
-                }
-                // $("#submitForm").attr("action", "/xngzf/archives/exportExcelFangyuan.action").submit();
+                $("#submitForm").attr("action", "/exportHouse").submit();
             }
         }
 
@@ -162,22 +153,45 @@
         /** 普通跳转 **/
         function jumpNormalPages(page) {
             console.log("普通跳转" + page)
+            var fyXq = $("#fyXq").val();
+            var fyDh = $("#fyDh").val();
+            var fyHx = $("#fyHx").val();
+            var fyStatus = $("#fyStatus").val();
+            var map = {
+                "fyHxCode": fyHx,
+                "fyXqCode": fyXq,
+                "fyDhCode": fyDh,
+                "fyStatus": fyStatus
+            };
             if (page >= 1) {
                 $.ajax({
                     url: "/getAllInformation?page=" + page,
-                    type: "GET",
+                    type: "post",
+                    dataType: "json",
+                    contentType: 'application/x-www-form-urlencoded',
+                    data: map,
                     success: function (data) {
                         fun(data);
                     }
                 });
             } else {
-               alert("没有数据了！")
+                alert("没有数据了！")
             }
         }
 
 
         /** 输入页跳转 **/
         function jumpInputPage(totalPage) {
+            var fyXq = $("#fyXq").val();
+            var fyDh = $("#fyDh").val();
+            var fyHx = $("#fyHx").val();
+            var fyStatus = $("#fyStatus").val();
+            var map = {
+                "fyHxCode": fyHx,
+                "fyXqCode": fyXq,
+                "fyDhCode": fyDh,
+                "fyStatus": fyStatus
+            };
             // 如果“跳转页数”不为空
             if ($("#jumpNumTxt").val() != '') {
                 var pageNum = parseInt($("#jumpNumTxt").val());
@@ -187,7 +201,10 @@
                 } else {
                     $.ajax({
                         url: "/getAllInformation?page=" + pageNum,
-                        type: "GET",
+                        type: "post",
+                        dataType: "json",
+                        contentType: 'application/x-www-form-urlencoded',
+                        data: map,
                         success: function (data) {
                             fun(data);
                         }
@@ -275,16 +292,16 @@
                     <div id="box_top">搜索</div>
                     <div id="box_center">
                         小区
-                        <select id="fyXq" class="ui_select01" >
+                        <select id="fyXq" class="ui_select01" onchange="getFyDhListByFyXqCode()">
                             <option value="">--请选择--</option>
                         </select>
 
                         栋号
-                        <select id="fyDh" class="ui_select01">
+                        <select id="fyDh" class="ui_select01" onchange="getFyDhListByFyDhCode()">
                             <option value="">--请选择--</option>
                         </select>
                         户型
-                        <select id="fyHx" class="ui_select01">
+                        <select id="fyHx" class="ui_select01" onchange="getFyDhListByFyHxCode()">
                             <option value="">--请选择--</option>
                             <option value="76">一室一厅一卫</option>
                             <option value="10">两室一厅一卫</option>

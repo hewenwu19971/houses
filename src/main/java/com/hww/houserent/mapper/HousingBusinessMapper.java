@@ -9,7 +9,7 @@ import java.util.Map;
 @Mapper
 public interface HousingBusinessMapper {
     /** 查询所有 **/
-    List<Housing_InformationEntity> getPropertyInformation();
+    List<Housing_InformationEntity> getPropertyInformation(Map map);
     /** 单个删除 **/
     int SingleDeletion(int id);
     /** 编辑 **/

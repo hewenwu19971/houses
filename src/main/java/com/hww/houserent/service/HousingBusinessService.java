@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface HousingBusinessService {
-    List<Housing_InformationEntity> getHouse();
+    List<Housing_InformationEntity> getHouse(Map map);
     int delHouse(int id);
     Housing_InformationEntity editHouse(int id);
     Housing_InformationEntity inspect(Housing_InformationEntity housing_informationEntity);

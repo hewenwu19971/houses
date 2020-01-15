@@ -26,7 +26,8 @@ public class Housing_InformationEntity implements Serializable {
     private String rental_area;//计租面积
     private String apartment;//户型
     private String building_structure;//建筑结构
-
+    private String nature_of_lease;
+    private String state;
     public int getId() {
         return id;
     }
@@ -123,7 +124,5 @@ public class Housing_InformationEntity implements Serializable {
         this.state = state;
     }
 
-    private String nature_of_lease;
-    private String state;
 
 }

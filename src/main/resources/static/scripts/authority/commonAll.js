@@ -29,7 +29,6 @@ function getFyDhListByFyXqCode() {
                         str += '<option value="' + data[i] + '">'
                             + data[i] + '</option>';
                     }
-                    // alert(str);
                     $("#fyDh").html(str);
                 }
             }
