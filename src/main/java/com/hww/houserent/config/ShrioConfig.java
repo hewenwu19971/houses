@@ -33,8 +33,10 @@ public class ShrioConfig {
         Map<String, String> map = new LinkedHashMap<>();
         /*************设置需要放行aono请求**************/
         map.put("/login", "anon");//去到登录页面的请求
+        map.put("/login.html","anon");
         /*************设置需要身份验证authc请求**************/
         map.put("/index", "authc");
+        map.put("/*.html", "authc");
         /***********************设置角色验证roles**************************/
         map.put("/delFangyuan","roles[admin]");
 
