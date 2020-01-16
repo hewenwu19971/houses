@@ -6,16 +6,16 @@
 
     <select id="getPropertyInformation" resultType="com.hww.houserent.entity.Housing_InformationEntity" parameterType="map">
         select * from housing_information where 1=1
-         <if test="fyHxCode != null">
+         <if test="fyHxCode != null and fyHxCode != ''">
            and   community = #{fyXqCode}
          </if>
-        <if test="fyXqCode != null">
+        <if test="fyXqCode != null and fyXqCode != ''">
             and apartment = #{fyHxCode}
         </if>
-        <if test="fyDhCode != null">
+        <if test="fyDhCode != null and fyDhCode != ''">
             and building_number = #{fyDhCode}
         </if>
-        <if test="fyStatus != null">
+        <if test="fyStatus != null and fyStatus != ''">
             and state = #{fyStatus}
         </if>
          ORDER BY community

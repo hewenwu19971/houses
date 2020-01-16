@@ -40,12 +40,15 @@ public class HousingBusinessController {
     @ResponseBody
     @RequestMapping(value = "/getAllInformation")
     public PageInfo getAllInformation(@RequestParam(value = "page", required = false, defaultValue = "1") int page
-            , @RequestParam(required = false) Map map) {
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("fyDhCode",fyDhCode);
-//        map.put("fyHxCode",fyHxCode);
-//        map.put("fyXqCode",fyXqCode);
-//        map.put("fyStatus",fyStatus);
+            , @RequestParam(value ="fyDhCode" ,required = false) String fyDhCode
+            , @RequestParam(value ="fyHxCode" ,required = false) String fyHxCode
+            , @RequestParam(value ="fyXqCode" ,required = false) String fyXqCode
+            , @RequestParam(value ="fyStatus" ,required = false) String fyStatus) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("fyDhCode",fyDhCode);
+        map.put("fyHxCode",fyHxCode);
+        map.put("fyXqCode",fyXqCode);
+        map.put("fyStatus",fyStatus);
 
         System.out.println("map>>>>>>" + map.toString());
         PageInfo<Housing_InformationEntity> entityPageInfo = null;
