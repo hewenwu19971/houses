@@ -14,6 +14,7 @@ import java.util.Map;
 @Configuration
 public class DuridConfig {
     @Bean
+
     public ServletRegistrationBean statViewServlet() {
 
         ServletRegistrationBean bean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");

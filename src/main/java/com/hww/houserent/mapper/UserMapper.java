@@ -8,11 +8,13 @@ import java.util.Set;
 @Mapper
 public interface UserMapper {
 
-    public UserEntity byUserName (String username);
+    UserEntity byUserName (String username);
 
     UserEntity getUserByName(String username);
 
     Set<String> getPermissions (String username);
 
     Set<String> getRoles(String username);
+
+    Integer setUser(UserEntity userEntity);
 }

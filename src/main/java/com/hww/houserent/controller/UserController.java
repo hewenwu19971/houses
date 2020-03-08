@@ -2,11 +2,14 @@ package com.hww.houserent.controller;
 
 import com.hww.houserent.entity.UserEntity;
 import com.hww.houserent.service.impl.UserServiceImpl;
+import com.hww.houserent.util.MD5Utils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.SecureRandomNumberGenerator;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -72,6 +75,21 @@ public class UserController {
         subject.logout();
         return "redirect:/login.html";
     }
+
+    @PostMapping("/register")
+    @ResponseBody
+    public String register(UserEntity userEntity){
+        UserEntity userEntity1 = new UserEntity();
+        //生成盐（部分，需要存入数据库中）
+         String random=new SecureRandomNumberGenerator().nextBytes().toHex();
+        //将原始密码加盐（上面生成的盐），并且用md5算法加密三次，将最后结果存入数据库中
+        String computeMd5 = MD5Utils.computeMd5(userEntity.getPassword());
+        userEntity1.setUsername(userEntity.getUsername());
+        userEntity1.setPassword(computeMd5);
+        userService.setUser(userEntity1);
+        return "redirect:/index.html";
+    }
+
 
     @RequestMapping("/noAuthc")
     public String noAuthc(){

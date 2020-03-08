@@ -24,4 +24,8 @@
         SELECT r.rolename FROM `user`u INNER JOIN role r on r.id=u.roleid WHERE u.username=#{username}
 
     </select>
+
+    <insert id="setUser" parameterType="com.hww.houserent.entity.UserEntity">
+        insert into user (username,`password`) values (#{username},#{password})
+    </insert>
 </mapper>

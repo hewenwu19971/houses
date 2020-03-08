@@ -12,4 +12,6 @@ public interface UserService {
     Set<String> getPermissions (String username);
 
     Set<String> getRoles(String username);
+
+    Integer setUser(UserEntity userEntity);
 }

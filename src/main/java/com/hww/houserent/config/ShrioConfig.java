@@ -1,6 +1,7 @@
 package com.hww.houserent.config;
 
 import com.hww.houserent.userrealm.UserRealm;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
@@ -13,8 +14,11 @@ import java.util.Map;
 public class ShrioConfig {
     //注入Realm
     @Bean
-    public UserRealm getUserRealm() {
-        return new UserRealm();
+    public UserRealm getUserRealm(HashedCredentialsMatcher matcher) {
+        UserRealm userRealm = new UserRealm();
+        userRealm.setAuthorizationCachingEnabled(false);
+        userRealm.setCredentialsMatcher(matcher);
+        return userRealm;
     }
 
     //创建ShiroFilterFactoryBean过滤器
@@ -34,6 +38,8 @@ public class ShrioConfig {
         /*************设置需要放行aono请求**************/
         map.put("/login", "anon");//去到登录页面的请求
         map.put("/login.html","anon");
+        map.put("/register.html","anon");
+        map.put("/register","anon");
         /*************设置需要身份验证authc请求**************/
         map.put("/index", "authc");
         map.put("/*.html", "authc");
@@ -61,5 +67,15 @@ public class ShrioConfig {
 
 
         return defaultWebSecurityManager;
+    }
+
+
+    @Bean("hashedCredentialsMatcher")
+    public HashedCredentialsMatcher getHashedCredentialsMatcher(){
+        HashedCredentialsMatcher matcher = new HashedCredentialsMatcher();
+        matcher.setHashAlgorithmName("md5");//散列算法，这里使用md5
+        matcher.setHashIterations(3);//加密次数相当于md5(md5(md5(...)))
+        matcher.setStoredCredentialsHexEncoded(true);
+        return matcher;
     }
 }
